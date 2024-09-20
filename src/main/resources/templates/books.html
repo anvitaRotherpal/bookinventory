@@ -1,0 +1,54 @@
+<html></html>
+<head>
+    <title>Book Inventory</title>
+</head>
+<body>
+    <h1>Book Inventory</h1>
+
+    <form action="/books/add" method="post">
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="author" placeholder="Author" required>
+        <input type="text" name="genre" placeholder="Genre">
+        <input type="date" name="publicationDate">
+        <input type="text" name="isbn" placeholder="ISBN">
+        <button type="submit">Add Book</button>
+    </form>
+
+    <form action="/books/filter" method="post">
+        <input type="text" name="title" placeholder="Filter by Title">
+        <input type="text" name="author" placeholder="Filter by Author">
+        <input type="text" name="genre" placeholder="Filter by Genre">
+        <button type="submit">Filter Books</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Publication Date</th>
+                <th>ISBN</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.genre}"></td>
+                <td th:text="${book.publicationDate}"></td>
+                <td th:text="${book.isbn}"></td>
+                <td>
+                    <a th:href="@{/books/delete/{id}(id=${book.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="/books/export" method="get">
+        <button type="submit">Export as CSV</button>
+        <button type="submit">Export as JSON</button>
+    </form>
+</body>
+</html>
