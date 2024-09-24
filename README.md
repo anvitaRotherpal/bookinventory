@@ -1,0 +1,1 @@
+Book Inventory Management System built with Spring Boot, Java, and MySQL. The system allows users to manage books by performing CRUD operations, filtering based on criteria like genre and author, and exporting data in CSV or JSON formats. It features an intuitive interface with Thymeleaf templates and is designed for efficient book management
