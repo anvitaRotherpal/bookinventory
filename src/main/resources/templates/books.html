@@ -50,5 +50,14 @@
         <button type="submit">Export as CSV</button>
         <button type="submit">Export as JSON</button>
     </form>
+
+    <form action="/books/filter" method="get">
+  <select name="category">
+    <option value="Fiction">Fiction</option>
+    <option value="Science">Science</option>
+    <option value="Non-Fiction">Non-Fiction</option>
+  </select>
+  <button type="submit">Filter</button>
+</form>
 </body>
 </html>

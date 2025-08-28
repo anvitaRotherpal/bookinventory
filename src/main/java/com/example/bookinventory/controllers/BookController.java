@@ -31,6 +31,13 @@ public class BookController {
         return "books";
     }
 
+    @GetMapping("/books/filter")
+public String filterBooks(@RequestParam String category, Model model) {
+    List<Book> books = bookService.filterByCategory(category);
+    model.addAttribute("books", books);
+    return "books"; 
+}
+
     @PostMapping("/books/add")
     public String addBook(@ModelAttribute Book book) {
         bookService.addBook(book);
@@ -89,4 +96,7 @@ public class BookController {
 
         writer.flush();
     }
+
+
+    
 }

@@ -13,6 +13,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
@@ -30,5 +31,9 @@ public class BookService {
 
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
+    }
+
+     public List<Book> filterByCategory(String category) {
+        return bookRepository.findByCategory(category);
     }
 }

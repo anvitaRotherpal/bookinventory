@@ -21,18 +21,20 @@ public class Book {
     private String genre;
     private String publicationDate;
     private String isbn;
+    private String category;
 
     // Default constructor
     public Book() {
     }
 
     // Parameterized constructor
-    public Book(String title, String author, String genre, String publicationDate, String isbn) {
+    public Book(String title, String author, String genre, String publicationDate, String isbn, String category) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.publicationDate = publicationDate;
         this.isbn = isbn;
+        this.category=category;
     }
 
     // Getters and Setters
@@ -82,5 +84,13 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory() {
+        this.category = category;
     }
 }
