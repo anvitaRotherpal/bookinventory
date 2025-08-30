@@ -31,6 +31,12 @@ public class BookController {
         return "books";
     }
 
+    @GetMapping("/search")
+public String searchBooks(@RequestParam String title, Model model) {
+    model.addAttribute("books", bookService.getBooksByTitle(title));
+    return "books"; // your Thymeleaf template
+}
+
     @GetMapping("/books/filter")
 public String filterBooks(@RequestParam String category, Model model) {
     List<Book> books = bookService.filterByCategory(category);

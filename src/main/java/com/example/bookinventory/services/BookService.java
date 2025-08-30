@@ -36,4 +36,10 @@ public class BookService {
      public List<Book> filterByCategory(String category) {
         return bookRepository.findByCategory(category);
     }
+
+    public List<Book> getBooksByTitle(String title) {
+    return bookRepository.findAll().stream()
+            .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
+            .collect(Collectors.toList());
+}
 }

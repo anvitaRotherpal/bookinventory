@@ -22,6 +22,7 @@ public class Book {
     private String publicationDate;
     private String isbn;
     private String category;
+    
 
     // Default constructor
     public Book() {
@@ -93,4 +94,6 @@ public class Book {
     public void setCategory() {
         this.category = category;
     }
+
+    
 }
