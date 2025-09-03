@@ -1,0 +1,22 @@
+# Book Inventory Management System
+
+**Book Inventory** is a Spring Boot web application that allows users to manage books efficiently. Users can add, view, filter, and export book records, making inventory management simple and organized.
+
+## Features
+- Add new books with details like title, author, genre, and price.  
+- View all books in a searchable list.  
+- Filter books by author, genre, or price range.  
+- Export book data in CSV or JSON formats.  
+- User-friendly interface using Thymeleaf templates.  
+
+## Tech Stack
+- **Backend:** Java, Spring Boot  
+- **Frontend:** Thymeleaf  
+- **Database:** MySQL  
+- **Build Tool:** Maven  
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/book-inventory.git
