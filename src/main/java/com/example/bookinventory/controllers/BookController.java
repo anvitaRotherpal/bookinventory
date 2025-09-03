@@ -44,11 +44,24 @@ public String filterBooks(@RequestParam String category, Model model) {
     return "books"; 
 }
 
+  @GetMapping("/books/new")
+public String showAddBookForm(Model model) {
+    model.addAttribute("book", new Book());
+    return "add-book";  // this will point to add-book.html
+}
+
+
     @PostMapping("/books/add")
     public String addBook(@ModelAttribute Book book) {
         bookService.addBook(book);
         return "redirect:/books";
     }
+
+    @PostMapping("/books")
+public String saveBook(@ModelAttribute("book") Book book) {
+    bookService.addBook(book);
+    return "redirect:/books";  // redirect to book list after saving
+}
 
     @PostMapping("/books/filter")
     public String filterBooks(@RequestParam String title, @RequestParam String author, @RequestParam String genre, Model model) {
