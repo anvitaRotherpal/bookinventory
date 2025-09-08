@@ -42,4 +42,12 @@ public class BookService {
             .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
             .collect(Collectors.toList());
 }
+
+public List<Book> getBooksSortedByTitle() {
+    return bookRepository.findAllByOrderByTitleAsc();
+}
+
+public List<Book> getBooksSortedByAuthor() {
+    return bookRepository.findAllByOrderByAuthorAsc();
+}
 }

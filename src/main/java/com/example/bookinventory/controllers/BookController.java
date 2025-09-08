@@ -117,5 +117,19 @@ public String saveBook(@ModelAttribute("book") Book book) {
     }
 
 
+    @GetMapping("/books/sort/title")
+public String sortByTitle(Model model) {
+    model.addAttribute("books", bookService.getBooksSortedByTitle());
+    return "books";
+}
+
+@GetMapping("/books/sort/author")
+public String sortByAuthor(Model model) {
+    model.addAttribute("books", bookService.getBooksSortedByAuthor());
+    return "books";
+}
+
+
+
     
 }
