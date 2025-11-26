@@ -25,111 +25,117 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    // View all books
     @GetMapping("/books")
     public String viewBooks(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
         return "books";
     }
 
+    // Search by title (optional)
     @GetMapping("/search")
-public String searchBooks(@RequestParam String title, Model model) {
-    model.addAttribute("books", bookService.getBooksByTitle(title));
-    return "books"; // your Thymeleaf template
-}
+    public String searchBooks(@RequestParam(required = false) String title, Model model) {
+        List<Book> books = (title == null || title.isEmpty()) ?
+                           bookService.getAllBooks() :
+                           bookService.getBooksByTitle(title);
+        model.addAttribute("books", books);
+        return "books";
+    }
 
+    // Filter by category (optional)
     @GetMapping("/books/filter")
-public String filterBooks(@RequestParam String category, Model model) {
-    List<Book> books = bookService.filterByCategory(category);
-    model.addAttribute("books", books);
-    return "books"; 
-}
+    public String filterBooksByCategory(@RequestParam(required = false) String category, Model model) {
+        List<Book> books = (category == null || category.isEmpty()) ?
+                           bookService.getAllBooks() :
+                           bookService.filterByCategory(category);
+        model.addAttribute("books", books);
+        return "books";
+    }
 
-  @GetMapping("/books/new")
-public String showAddBookForm(Model model) {
-    model.addAttribute("book", new Book());
-    return "add-book";  // this will point to add-book.html
-}
+    // Show form to add a new book
+    @GetMapping("/books/new")
+    public String showAddBookForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "add-book"; // points to add-book.html
+    }
 
-
+    // Add a new book (POST)
     @PostMapping("/books/add")
     public String addBook(@ModelAttribute Book book) {
         bookService.addBook(book);
         return "redirect:/books";
     }
 
-    @PostMapping("/books")
-public String saveBook(@ModelAttribute("book") Book book) {
-    bookService.addBook(book);
-    return "redirect:/books";  // redirect to book list after saving
-}
-
+    // Advanced filter (POST)
     @PostMapping("/books/filter")
-    public String filterBooks(@RequestParam String title, @RequestParam String author, @RequestParam String genre, Model model) {
+    public String filterBooks(@RequestParam(required = false) String title,
+                              @RequestParam(required = false) String author,
+                              @RequestParam(required = false) String genre,
+                              Model model) {
         model.addAttribute("books", bookService.filterBooks(title, author, genre));
         return "books";
     }
 
+    // Delete a book
     @GetMapping("/books/delete/{id}")
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return "redirect:/books";
     }
 
+    // Export all books as CSV
     @GetMapping("/books/export/csv")
     public void exportCSV(HttpServletResponse response) throws IOException {
-        // Set the content type and header
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=books.csv");
 
-        // Create a PrintWriter for writing the response
         PrintWriter writer = response.getWriter();
-
-        // Write the header row
         writer.println("ID,Title,Author,Genre,Publication Date,ISBN");
 
-        // Retrieve all books from the database
         List<Book> books = bookService.getAllBooks();
         for (Book book : books) {
-            writer.println(book.getId() + "," + book.getTitle() + "," + book.getAuthor() + "," +
-                           book.getGenre() + "," + book.getPublicationDate() + "," + book.getIsbn());
+            writer.println(
+                (book.getId() != null ? book.getId() : "") + "," +
+                (book.getTitle() != null ? book.getTitle() : "") + "," +
+                (book.getAuthor() != null ? book.getAuthor() : "") + "," +
+                (book.getGenre() != null ? book.getGenre() : "") + "," +
+                (book.getPublicationDate() != null ? book.getPublicationDate() : "") + "," +
+                (book.getIsbn() != null ? book.getIsbn() : "")
+            );
         }
-
         writer.flush();
     }
 
+    // Export all books as JSON
     @GetMapping("/books/export/json")
     public void exportJSON(HttpServletResponse response) throws IOException {
-        // Set the content type and header
         response.setContentType("application/json");
         response.setHeader("Content-Disposition", "attachment; filename=books.json");
 
-        // Retrieve all books from the database
         List<Book> books = bookService.getAllBooks();
-
-        // Create an ObjectMapper to convert the list to JSON
         ObjectMapper objectMapper = new ObjectMapper();
         PrintWriter writer = response.getWriter();
-        
-        // Write the JSON data
         writer.write(objectMapper.writeValueAsString(books));
-
         writer.flush();
     }
 
-
+    // Sort by title
     @GetMapping("/books/sort/title")
-public String sortByTitle(Model model) {
-    model.addAttribute("books", bookService.getBooksSortedByTitle());
-    return "books";
-}
+    public String sortByTitle(Model model) {
+        model.addAttribute("books", bookService.getBooksSortedByTitle());
+        return "books";
+    }
 
-@GetMapping("/books/sort/author")
-public String sortByAuthor(Model model) {
-    model.addAttribute("books", bookService.getBooksSortedByAuthor());
-    return "books";
-}
+    // Sort by author
+    @GetMapping("/books/sort/author")
+    public String sortByAuthor(Model model) {
+        model.addAttribute("books", bookService.getBooksSortedByAuthor());
+        return "books";
+    }
 
-
-
-    
+    // Redirect root URL to /books
+    @GetMapping("/")
+    public String homeRedirect() {
+        return "redirect:/books";
+    }
 }

@@ -1,15 +1,10 @@
 package com.example.bookinventory.model;
 
-
-
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-(name = "books")
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -19,81 +14,49 @@ public class Book {
     private String title;
     private String author;
     private String genre;
-    private String publicationDate;
-    private String isbn;
     private String category;
-    
 
-    // Default constructor
-    public Book() {
-    }
+    private LocalDate publicationDate;
+    private String isbn;
 
-    // Parameterized constructor
-    public Book(String title, String author, String genre, String publicationDate, String isbn, String category) {
+    private Double price;  // Add this field to match your template
+
+    // Constructors
+    public Book() {}
+
+    public Book(String title, String author, String genre, String category, LocalDate publicationDate, String isbn, Double price) {
         this.title = title;
         this.author = author;
         this.genre = genre;
+        this.category = category;
         this.publicationDate = publicationDate;
         this.isbn = isbn;
-        this.category=category;
+        this.price = price;
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
 
-    public String getAuthor() {
-        return author;
-    }
+    public String getGenre() { return genre; }
+    public void setGenre(String genre) { this.genre = genre; }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public String getGenre() {
-        return genre;
-    }
+    public LocalDate getPublicationDate() { return publicationDate; }
+    public void setPublicationDate(LocalDate publicationDate) { this.publicationDate = publicationDate; }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
 
-    public String getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(String publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory() {
-        this.category = category;
-    }
-
-    
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
 }

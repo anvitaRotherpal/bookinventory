@@ -10,44 +10,55 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookService {
+
     @Autowired
     private BookRepository bookRepository;
 
-
+    // Get all books
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
+    // Add a new book
     public void addBook(Book book) {
         bookRepository.save(book);
     }
 
+    // Filter books by title, author, genre safely
     public List<Book> filterBooks(String title, String author, String genre) {
-        return bookRepository.findByTitleContainingIgnoreCase(title).stream()
-              .filter(b -> (author == null || b.getAuthor().contains(author)) &&
-                           (genre == null || b.getGenre().contains(genre)))
-              .collect(Collectors.toList());
+        return bookRepository.findByTitleContainingIgnoreCase(title != null ? title : "")
+                .stream()
+                .filter(b -> (author == null || (b.getAuthor() != null && b.getAuthor().toLowerCase().contains(author.toLowerCase()))) &&
+                             (genre == null || (b.getGenre() != null && b.getGenre().toLowerCase().contains(genre.toLowerCase()))))
+                .collect(Collectors.toList());
     }
 
+    // Delete book by ID
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
 
-     public List<Book> filterByCategory(String category) {
+    // Filter by category safely
+    public List<Book> filterByCategory(String category) {
+        if (category == null) return getAllBooks();
         return bookRepository.findByCategory(category);
     }
 
+    // Get books by title safely
     public List<Book> getBooksByTitle(String title) {
-    return bookRepository.findAll().stream()
-            .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
-            .collect(Collectors.toList());
-}
+        if (title == null) return getAllBooks();
+        return bookRepository.findAll().stream()
+                .filter(book -> book.getTitle() != null && book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .collect(Collectors.toList());
+    }
 
-public List<Book> getBooksSortedByTitle() {
-    return bookRepository.findAllByOrderByTitleAsc();
-}
+    // Sort books by title
+    public List<Book> getBooksSortedByTitle() {
+        return bookRepository.findAllByOrderByTitleAsc();
+    }
 
-public List<Book> getBooksSortedByAuthor() {
-    return bookRepository.findAllByOrderByAuthorAsc();
-}
+    // Sort books by author
+    public List<Book> getBooksSortedByAuthor() {
+        return bookRepository.findAllByOrderByAuthorAsc();
+    }
 }

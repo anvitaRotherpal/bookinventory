@@ -1,22 +1,24 @@
-<html></html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book Inventory</title>
 </head>
 <body>
     <h1>Book Inventory</h1>
 
+    <!-- Add Book Form -->
     <form action="/books/add" method="post">
         <input type="text" name="title" placeholder="Title" required>
         <input type="text" name="author" placeholder="Author" required>
         <input type="text" name="genre" placeholder="Genre">
+        <input type="text" name="category" placeholder="Category">
         <input type="date" name="publicationDate">
         <input type="text" name="isbn" placeholder="ISBN">
-        <input type="text" name="category" placeholder="Category">
-       <input type="number" step="0.01" name="price" placeholder="Price">
-       <input type="number" step="0.01" name="price" placeholder="Price">
+        <input type="number" step="0.01" name="price" placeholder="Price">
         <button type="submit">Add Book</button>
     </form>
 
+    <!-- Filter Form -->
     <form action="/books/filter" method="post">
         <input type="text" name="title" placeholder="Filter by Title">
         <input type="text" name="author" placeholder="Filter by Author">
@@ -24,19 +26,22 @@
         <button type="submit">Filter Books</button>
     </form>
 
-    <a href="/books/sort/title">Sort by Title</a>
-<a href="/books/sort/author">Sort by Author</a>
+    <!-- Sorting Links -->
+    <a href="/books/sort/title">Sort by Title</a> |
+    <a href="/books/sort/author">Sort by Author</a>
 
-    <table>
+    <!-- Book Table -->
+    <table border="1">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Genre</th>
+                <th>Category</th>
                 <th>Publication Date</th>
                 <th>ISBN</th>
-                <th>Actions</th>
                 <th>Price</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +49,7 @@
                 <td th:text="${book.title}"></td>
                 <td th:text="${book.author}"></td>
                 <td th:text="${book.genre}"></td>
+                <td th:text="${book.category}"></td>
                 <td th:text="${book.publicationDate}"></td>
                 <td th:text="${book.isbn}"></td>
                 <td th:text="${book.price}"></td>
@@ -54,23 +60,28 @@
         </tbody>
     </table>
 
-    <form action="/books/export" method="get">
+    <!-- Export Buttons -->
+    <form action="/books/export/csv" method="get">
         <button type="submit">Export as CSV</button>
+    </form>
+    <form action="/books/export/json" method="get">
         <button type="submit">Export as JSON</button>
     </form>
 
+    <!-- Search Form -->
     <form action="/search" method="get">
-    <input type="text" name="title" placeholder="Search by title">
-    <button type="submit">Search</button>
-</form>
+        <input type="text" name="title" placeholder="Search by title">
+        <button type="submit">Search</button>
+    </form>
 
+    <!-- Category Filter Dropdown -->
     <form action="/books/filter" method="get">
-  <select name="category">
-    <option value="Fiction">Fiction</option>
-    <option value="Science">Science</option>
-    <option value="Non-Fiction">Non-Fiction</option>
-  </select>
-  <button type="submit">Filter</button>
-</form>
+        <select name="category">
+            <option value="Fiction">Fiction</option>
+            <option value="Science">Science</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
 </body>
 </html>
